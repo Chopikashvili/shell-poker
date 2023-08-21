@@ -32,5 +32,6 @@ func buildGame(pnum int, level int) (GameInstance, error) {
 			game.players = append(game.players, Robot{chips: 1000, level: level}) //initializes a robot player object with the given level. The hand will be dealt later
 		}
 	}
+	game.currentDeal = 1
 	return game, nil
 }
