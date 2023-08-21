@@ -3,19 +3,22 @@ package game
 import "chopikashvili/shellpoker/card"
 
 type GameInstance struct {
-	gameDeck      card.Deck
-	playerNumber  int
-	players       []any
-	humanPlayerId int
-	currentDeal   int
+	gameDeck       card.Deck
+	playerNumber   int
+	players        []any
+	humanPlayerId  int //Counted clockwise.
+	currentDeal    int
+	startingDealer int
+	minimumBet     int
 }
 
 type Deal struct {
 	game      GameInstance
+	dealDeck  card.Deck
 	cardsUsed int
-	community [5]card.Card
+	community []card.Card
 	bets      []int
-	dealerId  int
+	dealerId  int //Counted clockwise.
 }
 
 type Human struct {

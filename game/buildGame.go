@@ -11,6 +11,8 @@ func BuildGame(pnum int, level int) (GameInstance, error) {
 		return GameInstance{}, errors.New("Not enough players!")
 	} else if pnum >= 10 {
 		return GameInstance{}, errors.New("Too many players!")
+	} else if level < 1 || level > 10 {
+		return GameInstance{}, errors.New("Wrong bot level!")
 	}
 	return buildGame(pnum, level)
 }
@@ -22,7 +24,6 @@ func buildGame(pnum int, level int) (GameInstance, error) {
 		return GameInstance{}, e
 	}
 	game.gameDeck = d
-	game.gameDeck.Shuffle()
 	game.playerNumber = pnum
 	game.humanPlayerId = rand.Intn(pnum)
 	for i := 0; i < pnum; i++ {
@@ -33,5 +34,6 @@ func buildGame(pnum int, level int) (GameInstance, error) {
 		}
 	}
 	game.currentDeal = 1
+	game.startingDealer = rand.Intn(pnum)
 	return game, nil
 }
