@@ -22,11 +22,13 @@ type Deal struct {
 }
 
 type Human struct {
+	id    int
 	hand  [2]card.Card
 	chips int
 }
 
 type Robot struct {
+	id    int
 	hand  [2]card.Card
 	chips int
 	level int
