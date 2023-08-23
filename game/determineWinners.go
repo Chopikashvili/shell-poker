@@ -7,6 +7,7 @@ import (
 
 func DetermineWinners(hands []card.HandStrength) []int {
 	slices.SortStableFunc(hands, card.CompareHands)
+	slices.Reverse(hands)
 	winners := []int{}
 	winners = append(winners, hands[0].PlayerId)
 	for i := 1; i < len(hands); i++ {
