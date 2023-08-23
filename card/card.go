@@ -6,7 +6,7 @@ import (
 )
 
 type Card struct {
-	value int
+	value int //From 2 to 15.
 	suit  rune
 }
 
