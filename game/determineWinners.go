@@ -17,5 +17,6 @@ func DetermineWinners(hands []card.HandStrength) []int {
 			break
 		}
 	}
+	slices.Sort(winners)
 	return winners
 }
