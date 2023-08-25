@@ -6,6 +6,7 @@ import (
 	"math/rand"
 )
 
+// Initializes game object with number of players "pnum" and level of bots "level".
 func BuildGame(pnum int, level int) (GameInstance, error) {
 	if pnum <= 2 {
 		return GameInstance{}, errors.New("Not enough players!")

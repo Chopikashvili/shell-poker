@@ -2,18 +2,21 @@ package card
 
 import "errors"
 
+//Constructs deck.
 func BuildDeck() (Deck, error) {
 	d := Deck{}
 	return buildDeck(d, false) //add support for letter suits later
 }
 
 func buildDeck(d Deck, letters bool) (Deck, error) {
+	//constructing lists of possible values and suits
 	suits := [4]rune{'♠', '♣', '♥', '♦'}
 	lettersuits := [4]rune{'S', 'C', 'H', 'D'}
 	values := [13]int{}
 	for i := 0; i < 13; i++ {
 		values[i] = i + 2
 	}
+	//fills the deck
 	for s := 0; s < 4; s++ {
 		for v := 0; v < 13; v++ {
 			if letters {
@@ -23,6 +26,7 @@ func buildDeck(d Deck, letters bool) (Deck, error) {
 			}
 		}
 	}
+	//checks if deck was constructed correctly
 	c := Card{suit: '♦', value: 14}
 	if d[51] != c {
 		return d, errors.New("Could not build deck")

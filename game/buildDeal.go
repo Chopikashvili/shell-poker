@@ -5,6 +5,7 @@ import (
 	"errors"
 )
 
+// Initializes deal object
 func BuildDeal(g GameInstance) (Deal, error) {
 	return buildDeal(g)
 }
@@ -13,9 +14,10 @@ func buildDeal(g GameInstance) (Deal, error) {
 	deal := Deal{}
 	deal.game = g
 	deck := g.gameDeck
-	deck.Shuffle()
+	deck.Shuffle() //should remove and just randomize the card being taken every time
 	deal.dealDeck = deck
 	deal.community = make([]card.Card, 0)
+	//determines current dealer
 	i := g.startingDealer - g.currentDeal
 	if i >= 0 {
 		deal.dealerId = i
@@ -24,6 +26,7 @@ func buildDeal(g GameInstance) (Deal, error) {
 	} else {
 		return Deal{}, errors.New("Something went wrong while assigning dealer")
 	}
+	//determines big blind and small blind
 	for i := 0; i < g.playerNumber; i++ {
 		if i == deal.dealerId+1 || i == deal.dealerId+1-g.playerNumber {
 			deal.bets = append(deal.bets, 50)
