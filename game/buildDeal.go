@@ -39,11 +39,3 @@ func buildDeal(g GameInstance) (Deal, error) {
 	}
 	return deal, nil
 }
-
-func copySlice[T any](slice []T) []T {
-	copy := []T{}
-	for _, elem := range slice {
-		copy = append(copy, elem)
-	}
-	return copy
-}
