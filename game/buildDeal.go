@@ -13,9 +13,10 @@ func BuildDeal(g GameInstance) (Deal, error) {
 func buildDeal(g GameInstance) (Deal, error) {
 	deal := Deal{}
 	deal.game = g
-	deck := g.gameDeck
-	deck.Shuffle() //should remove and just randomize the card being taken every time
-	deal.dealDeck = deck
+	deal.dealDeck = card.Deck{}
+	for i := 0; i < 52; i++ {
+		deal.dealDeck[i] = g.gameDeck[i]
+	}
 	deal.community = make([]card.Card, 0)
 	//determines current dealer
 	i := g.startingDealer - g.currentDeal
@@ -37,4 +38,12 @@ func buildDeal(g GameInstance) (Deal, error) {
 		}
 	}
 	return deal, nil
+}
+
+func copySlice[T any](slice []T) []T {
+	copy := []T{}
+	for _, elem := range slice {
+		copy = append(copy, elem)
+	}
+	return copy
 }
