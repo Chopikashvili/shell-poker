@@ -34,7 +34,7 @@ func buildGame(pnum int, level int) (GameInstance, error) {
 			game.players = append(game.players, Player{Chips: 1000, level: level}) //initializes a robot player object with the given level. The hand will be dealt later
 		}
 	}
-	game.currentDeal = 1
+	game.currentDeal = 0
 	game.startingDealer = rand.Intn(pnum)
 	return game, nil
 }

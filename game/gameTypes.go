@@ -7,13 +7,13 @@ type GameInstance struct {
 	playerNumber   int       //Number of players
 	players        []Player  //Info about the players.
 	humanPlayerId  int       //The ID of the human player, counted "clockwise".
-	currentDeal    int       //Number of the current deal. One-indexed.
+	currentDeal    int       //Number of the current deal.
 	startingDealer int       //The ID of the starting dealer. The first to bet is 3 places clockwise from the dealer.
 }
 
 type Deal struct {
 	game      GameInstance //The game the deal is part of.
-	dealDeck  card.Deck    //Deck used for deal (might remove as part of optimization)
+	dealDeck  card.Deck    //Deck used for deal.
 	cardsUsed int          //How many cards were dealt to players or to the community.
 	community []card.Card  //Community cards.
 	bets      []int        //Tracks bets.
