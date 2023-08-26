@@ -3,6 +3,7 @@ package game
 import (
 	"chopikashvili/shellpoker/card"
 	"errors"
+	"math/rand"
 )
 
 // Initializes deal object
@@ -17,6 +18,7 @@ func buildDeal(g GameInstance) (Deal, error) {
 	for i := 0; i < 52; i++ {
 		deal.dealDeck[i] = g.gameDeck[i]
 	}
+	rand.Shuffle(52, func(i, j int) { deal.dealDeck[i], deal.dealDeck[j] = deal.dealDeck[j], deal.dealDeck[i] })
 	deal.community = make([]card.Card, 0)
 	//determines current dealer
 	i := g.startingDealer - g.currentDeal
@@ -37,6 +39,7 @@ func buildDeal(g GameInstance) (Deal, error) {
 			deal.bets = append(deal.bets, 0)
 		}
 	}
+	deal.cardsUsed = 0
 	deal.state = "before betting"
 	deal.pot = 150
 	return deal, nil

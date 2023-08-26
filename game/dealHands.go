@@ -1,18 +1,13 @@
 package game
 
 func (d Deal) DealHands() error {
-	for _, player := range d.game.players {
+	for i, player := range d.game.players {
 		if player.Chips != 0 {
-			var e1 error
-			var e2 error
-			player.Hand[0], e1 = d.game.gameDeck.Deal()
-			if e1 != nil {
-				return e1
-			}
-			player.Hand[1], e2 = d.game.gameDeck.Deal()
-			if e2 != nil {
-				return e2
-			}
+			player.Hand[0] = d.dealDeck.Deal(d.cardsUsed)
+			d.cardsUsed++
+			player.Hand[1] = d.dealDeck.Deal(d.cardsUsed)
+			d.cardsUsed++
+			d.game.players[i] = player
 		}
 	}
 	return nil
