@@ -37,5 +37,7 @@ func buildDeal(g GameInstance) (Deal, error) {
 			deal.bets = append(deal.bets, 0)
 		}
 	}
+	deal.state = "before betting"
+	deal.pot = 150
 	return deal, nil
 }

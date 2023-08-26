@@ -29,9 +29,9 @@ func buildGame(pnum int, level int) (GameInstance, error) {
 	game.humanPlayerId = rand.Intn(pnum)
 	for i := 0; i < pnum; i++ {
 		if i == game.humanPlayerId {
-			game.players = append(game.players, Human{chips: 1000}) //initializes a human player object. The hand will be dealt later
+			game.players = append(game.players, Player{Chips: 1000, level: 0}) //initializes a human player object. The hand will be dealt later
 		} else {
-			game.players = append(game.players, Robot{chips: 1000, level: level}) //initializes a robot player object with the given level. The hand will be dealt later
+			game.players = append(game.players, Player{Chips: 1000, level: level}) //initializes a robot player object with the given level. The hand will be dealt later
 		}
 	}
 	game.currentDeal = 1
