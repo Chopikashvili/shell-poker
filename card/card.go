@@ -12,6 +12,10 @@ type Card struct {
 
 type Deck [52]Card
 
+var Suits = [4]rune{'♠', '♣', '♥', '♦'}
+var LetterSuits = [4]rune{'S', 'C', 'H', 'D'}
+var CombinedSuits = [8]rune{'♠', '♣', '♥', '♦', 'S', 'C', 'H', 'D'}
+
 // Transforms the Card object into a readable string.
 func (c Card) Read() string {
 	var repr string

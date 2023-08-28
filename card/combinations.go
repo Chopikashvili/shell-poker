@@ -23,7 +23,6 @@ func IdentifyCombinations(playerId int, hand []Card) (HandStrength, error) {
 
 func identifyCombinations(playerId int, hand []Card) (HandStrength, error) {
 	possibleHands := []HandStrength{}
-	suits := [4]rune{'♠', '♣', '♥', '♦'}
 	for i := 0; i < 6; i++ {
 		for j := i + 1; j < 7; j++ {
 			//makes a hand
@@ -41,7 +40,7 @@ func identifyCombinations(playerId int, hand []Card) (HandStrength, error) {
 			resultValuesDesc := make([]int, 5)
 			resultValues, resultValuesDesc = general.SortDesc(resultValues)
 			//checks for flush and straight flush
-			for _, r := range suits {
+			for _, r := range CombinedSuits {
 				if len(general.Filter(resultHand, func(c Card) bool { return c.suit == r })) == 5 {
 					if resultValuesDesc[0]-resultValuesDesc[4] == 4 {
 						possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 8, CombName: "straight flush", OrderedCardValues: resultValuesDesc})

@@ -10,8 +10,6 @@ func BuildDeck() (Deck, error) {
 
 func buildDeck(d Deck, letters bool) (Deck, error) {
 	//constructing lists of possible values and suits
-	suits := [4]rune{'♠', '♣', '♥', '♦'}
-	lettersuits := [4]rune{'S', 'C', 'H', 'D'}
 	values := [13]int{}
 	for i := 0; i < 13; i++ {
 		values[i] = i + 2
@@ -20,9 +18,9 @@ func buildDeck(d Deck, letters bool) (Deck, error) {
 	for s := 0; s < 4; s++ {
 		for v := 0; v < 13; v++ {
 			if letters {
-				d[s*13+v] = Card{suit: lettersuits[s], value: values[v]}
+				d[s*13+v] = Card{suit: LetterSuits[s], value: values[v]}
 			} else {
-				d[s*13+v] = Card{suit: suits[s], value: values[v]}
+				d[s*13+v] = Card{suit: Suits[s], value: values[v]}
 			}
 		}
 	}
