@@ -25,7 +25,6 @@ func buildGame(pnum int, level int) (GameInstance, error) {
 		return GameInstance{}, e
 	}
 	game.gameDeck = d
-	game.playerNumber = pnum
 	game.humanPlayerId = rand.Intn(pnum)
 	for i := 0; i < pnum; i++ {
 		if i == game.humanPlayerId {
@@ -35,6 +34,6 @@ func buildGame(pnum int, level int) (GameInstance, error) {
 		}
 	}
 	game.currentDeal = 0
-	game.startingDealer = rand.Intn(pnum)
+	game.currentDealer = rand.Intn(pnum)
 	return game, nil
 }
