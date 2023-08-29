@@ -19,7 +19,6 @@ func buildDeal(g GameInstance) (Deal, error) {
 	for i, p := range deal.players {
 		p.HasFolded = false
 		p.order = i
-		p.deal = &deal
 	}
 	deal.dealDeck = card.Deck{}
 	for i := 0; i < 52; i++ {
@@ -27,15 +26,8 @@ func buildDeal(g GameInstance) (Deal, error) {
 	}
 	rand.Shuffle(52, func(i, j int) { deal.dealDeck[i], deal.dealDeck[j] = deal.dealDeck[j], deal.dealDeck[i] })
 	deal.community = make([]card.Card, 0)
-	//determines current dealer, looping through all players to find the first available
-	dealerUpNext := g.currentDealer
-	for i := dealerUpNext; i > dealerUpNext-g.playerNumber; i-- {
-		index := slices.IndexFunc(deal.players, func(p Player) bool { return p.GetId() == i || p.GetId() == i+g.playerNumber })
-		if index != -1 {
-			deal.dealerId = i
-			break
-		}
-	}
+	//determines current dealer
+	deal.dealerId = slices.IndexFunc(deal.players, func(p Player) bool { return p.id == g.currentDealer }) - 1
 	//determines big blind and small blind
 	for i := 0; i < len(deal.players); i++ {
 		if i == deal.dealerId+1 || i == deal.dealerId+1-len(deal.players) {
@@ -49,8 +41,5 @@ func buildDeal(g GameInstance) (Deal, error) {
 	deal.cardsUsed = 0
 	deal.state = "before betting"
 	deal.pot = 150
-	for _, p := range deal.game.players {
-		p.deal = deal
-	}
 	return deal, nil
 }
