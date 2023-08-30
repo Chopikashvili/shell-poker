@@ -12,15 +12,17 @@ type Settings struct {
 	BotLevel     int
 }
 
+// The questions to ask before starting the game
 var qs = []*survey.Question{
-	{Name: "letters", Prompt: &survey.Confirm{Message: "Do you see playing card suits: ♠ ♣ ♥ ♦ If not, you probably want to play with letters representing card suits. Do you want to play with letters as suits?"}},
+	{Name: "letters", Prompt: &survey.Confirm{Message: "Do you see playing card suits: ♠ ♣ ♥ ♦ \n If not, you probably want to play with letters representing card suits. Do you want to play with letters as suits?"}},
 	{Name: "playerNumber", Prompt: &survey.Input{Message: "Next, enter a number from 2 to 10 to determine how many players you want to have in the game."}},
 	{Name: "botLevel", Prompt: &survey.Input{Message: "Finally, enter a number from 1 to 10 to set the level of bots you'll be playing"}},
 }
 
+// Asks player to enter settings they want to play the game with
 func ConfigureSettings() (Settings, error) {
 	set := Settings{}
-	err := survey.Ask(qs, &set)
+	err := survey.Ask(qs, &set, survey.WithIcons(SurveySettings))
 	if err != nil {
 		return Settings{}, err
 	}
