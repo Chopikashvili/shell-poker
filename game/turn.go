@@ -1,49 +1,52 @@
 package game
 
 import (
+	"chopikashvili/shellpoker/ux"
 	"fmt"
 	"slices"
 
 	"github.com/AlecAivazis/survey/v2"
 )
 
-var sel = &survey.Select{Message: "What do you do?", Options: opt}
-var opt = []string{"call", "raise", "all in", "fold"}
-
-func (p Player) Turn(bets []int) {
-	if p.level == 0 || !p.HasFolded {
-		action := ""
-		survey.AskOne(sel, &action)
+func (p *Player) Turn(bets []int) error {
+	canBet := !p.HasFolded && !(p.Bet == p.Chips)
+	if p.level == 0 || !canBet {
 		amount := slices.Max(bets)
+		action := ""
+		var opt = []string{"call", "raise", "fold"}
+		var sel = &survey.Select{Message: "What do you do?", Options: opt}
+		err := survey.AskOne(sel, &action, survey.WithIcons(ux.SurveySettings))
+		if err != nil {
+			return err
+		}
 		switch action {
 		case "call":
-			p.call(amount)
+			if p.Chips < amount {
+				p.callOrRaise(p.Chips) //Could implement the side pot]
+			}
+			p.callOrRaise(amount)
 		case "raise":
 			raiseAmount := 0
-			survey.AskOne(&survey.Input{Message: "By how much?"}, &raiseAmount)
-			canRaise := raiseAmount > 0 && raiseAmount <= p.Chips-p.Bet
+			survey.AskOne(&survey.Input{Message: "To how much?"}, &raiseAmount, survey.WithIcons(ux.SurveySettings))
+			canRaise := raiseAmount > p.Bet && raiseAmount <= p.Chips
 			if canRaise {
-				p.raise(amount, raiseAmount)
+				p.callOrRaise(raiseAmount)
 			} else {
-				fmt.Println("Can't raise by that much")
+				fmt.Println("Can't raise to that much")
 				p.Turn(bets)
 			}
-		case "all in":
-			p.raise(amount, p.Chips-amount)
 		case "fold":
 			p.fold()
 		}
+	} else if canBet {
 	}
+	return nil
 }
 
-func (p Player) call(amount int) {
+func (p *Player) callOrRaise(amount int) {
 	p.Bet = amount
 }
 
-func (p Player) raise(amount int, r int) {
-	p.Bet = amount + r
-}
-
-func (p Player) fold() {
+func (p *Player) fold() {
 	p.HasFolded = true
 }
