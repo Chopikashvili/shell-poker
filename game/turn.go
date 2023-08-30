@@ -10,7 +10,7 @@ import (
 
 func (p *Player) Turn(bets []int) error {
 	canBet := !p.HasFolded && !(p.Bet == p.Chips)
-	if p.level == 0 || !canBet {
+	if p.level == 0 && canBet {
 		amount := slices.Max(bets)
 		action := ""
 		var opt = []string{"call", "raise", "fold"}
