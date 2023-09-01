@@ -24,6 +24,25 @@ func Count(slice []int, comparable int) int {
 	return counter
 }
 
+func CountFunc[T any](slice []T, predicate func(T) bool) int {
+	var counter int
+	for _, elem := range slice {
+		if predicate(elem) {
+			counter++
+		}
+	}
+	return counter
+}
+
+// Sums numbers in an int slice.
+func Sum(slice []int) int {
+	var counter int
+	for _, elem := range slice {
+		counter += elem
+	}
+	return counter
+}
+
 // Checks if the first slice contains a subslice that is equal to the second slice.
 func ContainsSubslice[T comparable](slice []T, subslice []T) bool {
 	for i := 0; i < len(slice)-len(subslice)+1; i++ {

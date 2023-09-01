@@ -2,38 +2,42 @@ package game
 
 import (
 	"chopikashvili/shellpoker/card"
-	"errors"
+	"chopikashvili/shellpoker/ux"
 	"math/rand"
 )
 
 // Initializes game object with number of players "pnum" and level of bots "level".
-func BuildGame(pnum int, level int) (GameInstance, error) {
-	if pnum <= 2 {
+func BuildGame(set ux.Settings) (GameInstance, error) {
+	/*if pnum <= 2 {
 		return GameInstance{}, errors.New("Not enough players!")
 	} else if pnum >= 10 {
 		return GameInstance{}, errors.New("Too many players!")
 	} else if level < 1 || level > 10 {
 		return GameInstance{}, errors.New("Wrong bot level!")
-	}
-	return buildGame(pnum, level)
+	}*/
+	return buildGame(set)
 }
 
-func buildGame(pnum int, level int) (GameInstance, error) {
+func buildGame(set ux.Settings) (GameInstance, error) {
 	game := GameInstance{}
-	d, e := card.BuildDeck()
+	d, e := card.BuildDeck(set.Letters)
 	if e != nil {
 		return GameInstance{}, e
 	}
 	game.gameDeck = d
-	game.humanPlayerId = rand.Intn(pnum)
-	for i := 0; i < pnum; i++ {
+	game.humanPlayerId = rand.Intn(set.PlayerNumber)
+	names, e := GenerateName(set.PlayerNumber)
+	if e != nil {
+		return GameInstance{}, e
+	}
+	for i := 0; i < set.PlayerNumber; i++ {
 		if i == game.humanPlayerId {
-			game.players = append(game.players, Player{Chips: 1000, level: 0}) //initializes a human player object. The hand will be dealt later
+			game.players = append(game.players, Player{Name: "You", Chips: 1000, level: 0}) //initializes a human player object. The hand will be dealt later
 		} else {
-			game.players = append(game.players, Player{Chips: 1000, level: level}) //initializes a robot player object with the given level. The hand will be dealt later
+			game.players = append(game.players, Player{Name: names[i], Chips: 1000, level: set.PlayerNumber}) //initializes a robot player object with the given level. The hand will be dealt later
 		}
 	}
 	game.currentDeal = 0
-	game.currentDealer = rand.Intn(pnum)
+	game.currentDealer = rand.Intn(set.PlayerNumber)
 	return game, nil
 }

@@ -16,17 +16,20 @@ type GameInstance struct {
 
 type Deal struct {
 	game      GameInstance //The game the deal is part of.
-	players   []Player
-	dealDeck  card.Deck   //Deck used for deal.
-	cardsUsed int         //How many cards were dealt to players or to the community.
-	community []card.Card //Community cards.
-	bets      []int       //Tracks bets.
-	pot       int         //The money in the pot.
-	dealerId  int         //Counted clockwise.
-	state     string      //State of the game.
+	players   []Player     //The players remaining in the deal
+	dealDeck  card.Deck    //Deck used for deal.
+	cardsUsed int          //How many cards were dealt to players or to the community.
+	community []card.Card  //Community cards.
+	bets      []int        //Tracks bets.
+	pot       int          //The money in the pot.
+	dealerId  int          //Counted clockwise.
+	state     string       //State of the game. May be unnecessary.
+	isWon     bool         //Whether the deal has ended.
+	Winners   []Player     //Who won the deal
 }
 
 type Player struct {
+	Name      string       //Name of the player
 	id        int          //The ID of the player.
 	order     int          //The order of the player from the player with ID 0
 	Hand      [2]card.Card //The hole cards of the player.

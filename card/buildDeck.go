@@ -3,9 +3,9 @@ package card
 import "errors"
 
 //Constructs deck.
-func BuildDeck() (Deck, error) {
+func BuildDeck(letters bool) (Deck, error) {
 	d := Deck{}
-	return buildDeck(d, false) //add support for letter suits later
+	return buildDeck(d, letters) //add support for letter suits later
 }
 
 func buildDeck(d Deck, letters bool) (Deck, error) {

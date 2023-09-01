@@ -8,12 +8,17 @@ import (
 	"github.com/AlecAivazis/survey/v2"
 )
 
-func (p *Player) Turn(bets []int) error {
+func (p *Player) Turn(deal *Deal) error {
 	canBet := !p.HasFolded && !(p.Bet == p.Chips)
 	if p.level == 0 && canBet {
-		amount := slices.Max(bets)
+		amount := slices.Max(deal.bets)
 		action := ""
-		var opt = []string{"call", "raise", "fold"}
+		var opt = []string{"call"}
+		if p.Chips < amount {
+			opt = append(opt, "fold")
+		} else {
+			opt = append(opt, "raise", "fold")
+		}
 		var sel = &survey.Select{Message: "What do you do?", Options: opt}
 		err := survey.AskOne(sel, &action, survey.WithIcons(ux.SurveySettings))
 		if err != nil {
@@ -33,7 +38,7 @@ func (p *Player) Turn(bets []int) error {
 				p.callOrRaise(raiseAmount)
 			} else {
 				fmt.Println("Can't raise to that much")
-				p.Turn(bets)
+				p.Turn(deal)
 			}
 		case "fold":
 			p.fold()
