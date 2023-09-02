@@ -35,13 +35,11 @@ func RunGame(set ux.Settings) {
 					switch i {
 					case 0:
 						for j := 0; j < 3; j++ {
-							deal.community = append(deal.community, deal.dealDeck.Deal(deal.cardsUsed))
-							deal.cardsUsed++
+							deal.community = append(deal.community, deal.dealDeck.Deal(&deal.cardsUsed))
 						}
 					case 1:
 					case 2:
-						deal.community = append(deal.community, deal.dealDeck.Deal(deal.cardsUsed))
-						deal.cardsUsed++
+						deal.community = append(deal.community, deal.dealDeck.Deal(&deal.cardsUsed))
 					case 3:
 						hands := []card.HandStrength{}
 						for _, p := range deal.players {
