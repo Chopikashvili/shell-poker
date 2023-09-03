@@ -10,8 +10,8 @@ import (
 
 func (p *Player) Turn(deal *Deal) error {
 	canBet := !p.HasFolded && !(p.Bet == p.Chips)
+	amount := slices.Max(deal.bets)
 	if p.level == 0 && canBet {
-		amount := slices.Max(deal.bets)
 		action := ""
 		var opt = []string{"call"}
 		if p.Chips < amount {
@@ -44,6 +44,25 @@ func (p *Player) Turn(deal *Deal) error {
 			p.fold()
 		}
 	} else if canBet {
+		action, err := RobotTurn(*p, len(deal.players), deal.community)
+		if err != nil {
+			return err
+		}
+		switch action {
+		case "call":
+			if p.Chips < amount {
+				p.callOrRaise(p.Chips) //Could implement the side pot]
+			}
+			p.callOrRaise(amount)
+		case "raise":
+			raiseAmount := p.Bet + 50
+			canRaise := raiseAmount > p.Bet && raiseAmount <= p.Chips
+			if canRaise {
+				p.callOrRaise(raiseAmount)
+			} else {
+				p.callOrRaise(p.Chips)
+			}
+		}
 	}
 	return nil
 }
