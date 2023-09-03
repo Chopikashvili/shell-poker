@@ -44,7 +44,7 @@ func RunGame(set ux.Settings) {
 						hands := []card.HandStrength{}
 						for _, p := range deal.players {
 							if !p.HasFolded {
-								cardSlice := general.CopySlice(deal.community)
+								cardSlice := slices.Clone(deal.community)
 								cardSlice = append(cardSlice, p.Hand[0])
 								cardSlice = append(cardSlice, p.Hand[1])
 								hand, err := card.IdentifyCombinations(p.GetId(), cardSlice)

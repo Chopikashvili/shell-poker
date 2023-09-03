@@ -14,7 +14,7 @@ func Filter[T any](slice []T, predicate func(T) bool) []T {
 }
 
 // Counts certain numbers in an int slice.
-func Count(slice []int, comparable int) int {
+func Count[T comparable](slice []T, comparable T) int {
 	var counter int
 	for _, elem := range slice {
 		if elem == comparable {
@@ -62,12 +62,4 @@ func SortDesc(s []int) ([]int, []int) {
 	slices.Sort(s)
 	slices.Reverse(s)
 	return orig, s
-}
-
-func CopySlice[T any](slice []T) []T {
-	copy := []T{}
-	for _, elem := range slice {
-		copy = append(copy, elem)
-	}
-	return copy
 }
