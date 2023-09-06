@@ -26,23 +26,12 @@ func (p *Player) Turn(deal *Deal) error {
 		}
 		switch action {
 		case "call":
-			if p.Chips < amount {
-				p.Bet = p.Chips
-			} else {
-				p.Bet = amount
-			}
-			fmt.Printf("%v chose to call.", p.Name)
+			p.call(amount)
 		case "raise":
 			raiseAmount := 0
 			survey.AskOne(&survey.Input{Message: "To how much?"}, &raiseAmount, survey.WithIcons(ux.SurveySettings))
-			canRaise := raiseAmount > amount && raiseAmount <= p.Chips
-			if canRaise {
-				p.Bet = raiseAmount
-				fmt.Printf("%v raised to %v.", p.Name, raiseAmount)
-			} else {
-				fmt.Println("Can't raise to that much")
-				p.Turn(deal)
-			}
+			p.humanRaise(amount, raiseAmount, deal)
+
 		case "fold":
 			p.HasFolded = true
 			fmt.Printf("%v folded.", p.Name)
@@ -54,25 +43,45 @@ func (p *Player) Turn(deal *Deal) error {
 		}
 		switch action {
 		case "call":
-			if p.Chips < amount {
-				p.Bet = p.Chips
-			} else {
-				p.Bet = amount
-			}
+			p.call(amount)
 			fmt.Printf("%v chose to call.", p.Name)
 		case "raise":
 			raiseAmount := amount + 50
-			if raiseAmount < p.Chips {
-				p.Bet = raiseAmount
-				fmt.Printf("%v raised to %v.", p.Name, raiseAmount)
-			} else {
-				p.Bet = p.Chips
-				fmt.Printf("%v raised to %v.", p.Name, p.Chips)
-			}
+			p.robotRaise(raiseAmount)
 		case "fold":
 			p.HasFolded = true
 			fmt.Printf("%v folded.", p.Name)
 		}
 	}
 	return nil
+}
+
+func (p *Player) call(amount int) {
+	if p.Chips < amount {
+		p.Bet = p.Chips
+	} else {
+		p.Bet = amount
+	}
+	fmt.Printf("%v chose to call.", p.Name)
+}
+
+func (p *Player) humanRaise(amount, raiseAmount int, deal *Deal) {
+	canRaise := raiseAmount > amount && raiseAmount <= p.Chips
+	if canRaise {
+		p.Bet = raiseAmount
+		fmt.Printf("%v raised to %v.", p.Name, raiseAmount)
+	} else {
+		fmt.Println("Can't raise to that much")
+		p.Turn(deal)
+	}
+}
+
+func (p *Player) robotRaise(raiseAmount int) {
+	if raiseAmount < p.Chips {
+		p.Bet = raiseAmount
+		fmt.Printf("%v raised to %v.", p.Name, raiseAmount)
+	} else {
+		p.Bet = p.Chips
+		fmt.Printf("%v raised to %v.", p.Name, p.Chips)
+	}
 }

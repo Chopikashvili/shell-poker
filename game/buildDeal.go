@@ -28,34 +28,37 @@ func buildDeal(g GameInstance) (Deal, error) {
 	//determines current dealer
 	dealerId := slices.IndexFunc(deal.players, func(p Player) bool { return p.id == g.currentDealer }) - 1
 	if dealerId == -1 {
-		deal.dealerId = slices.MaxFunc(deal.players, func(a, b Player) int { return a.id - b.id }).id
+		deal.dealerId = len(deal.players) - 1
 	} else {
 		deal.dealerId = dealerId
 	}
-	//determines big blind and small blind
-	for i, p := range deal.players {
-		if i == deal.dealerId+1 || i == deal.dealerId+1-len(deal.players) {
-			if p.Chips < 25 {
-				deal.bets = append(deal.bets, p.Chips)
-				p.Bet = p.Chips
-			} else {
-				deal.bets = append(deal.bets, 25)
-				p.Bet = 25
-			}
-		} else if i == deal.dealerId+2 || i == deal.dealerId+2-len(deal.players) {
-			if p.Chips < 50 {
-				deal.bets = append(deal.bets, p.Chips)
-				p.Bet = p.Chips
-			} else {
-				deal.bets = append(deal.bets, 50)
-				p.Bet = 50
-			}
-		} else {
-			deal.bets = append(deal.bets, 0)
-		}
-	}
+	deal.setBets()
 	deal.cardsUsed = 0
 	deal.state = "before betting"
 	deal.pot = 75
 	return deal, nil
+}
+
+func (d *Deal) setBets() {
+	for i, p := range d.players {
+		if i == d.dealerId+1 || i == d.dealerId+1-len(d.players) {
+			if p.Chips < 25 {
+				d.bets = append(d.bets, p.Chips)
+				p.Bet = p.Chips
+			} else {
+				d.bets = append(d.bets, 25)
+				p.Bet = 25
+			}
+		} else if i == d.dealerId+2 || i == d.dealerId+2-len(d.players) {
+			if p.Chips < 50 {
+				d.bets = append(d.bets, p.Chips)
+				p.Bet = p.Chips
+			} else {
+				d.bets = append(d.bets, 50)
+				p.Bet = 50
+			}
+		} else {
+			d.bets = append(d.bets, 0)
+		}
+	}
 }

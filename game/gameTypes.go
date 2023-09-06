@@ -22,7 +22,7 @@ type Deal struct {
 	community []card.Card  //Community cards.
 	bets      []int        //Tracks bets.
 	pot       int          //The money in the pot.
-	dealerId  int          //Counted clockwise.
+	dealerId  int          //Counted clockwise among players still in.
 	state     string       //State of the game. May be unnecessary.
 	isWon     bool         //Whether the deal has ended.
 	Winners   []Player     //Who won the deal
@@ -39,9 +39,9 @@ type Player struct {
 	level     int          //For robots, the level they play on. For the human player, 0.
 }
 
-func (p Player) ReadHand() (string, string) {
-	if p.level == 0 {
-		return p.Hand[0].Read(), p.Hand[1].Read()
+func ReadHand(pl Player) (string, string) {
+	if pl.level == 0 {
+		return pl.Hand[0].Read(), pl.Hand[1].Read()
 	}
 	return "??", "??"
 }

@@ -13,6 +13,39 @@ type HandStrength struct {
 	OrderedCardValues []int
 }
 
+type Combination struct {
+	strength  int
+	name      string
+	condition func([]Card, []int, []int, []int) bool
+}
+
+var combinations = []Combination{
+	{strength: 8, name: "straight flush", condition: func(cards []Card, i, dis, disC []int) bool {
+		for _, r := range CombinedSuits {
+			if len(general.Filter(cards, func(c Card) bool { return c.suit == r })) == 5 && i[0]-i[4] == 4 {
+				return true
+			}
+		}
+		return false
+	}},
+	{strength: 7, name: "four of a kind", condition: func(cards []Card, i, dis, disC []int) bool { return slices.Contains(dis, 4) }},
+	{strength: 6, name: "full house", condition: func(cards []Card, i, dis, disC []int) bool { return slices.Contains(dis, 3) && slices.Contains(dis, 2) }},
+	{strength: 5, name: "flush", condition: func(cards []Card, i, dis, disC []int) bool {
+		for _, r := range CombinedSuits {
+			if len(general.Filter(cards, func(c Card) bool { return c.suit == r })) == 5 {
+				return true
+			}
+		}
+		return false
+	}},
+	{strength: 4, name: "straight", condition: func(cards []Card, i, dis, disC []int) bool {
+		return general.ContainsSubslice(disC, []int{1, 1, 1, 1, 1})
+	}},
+	{strength: 3, name: "three of a kind", condition: func(cards []Card, i, dis, disC []int) bool { return slices.Contains(dis, 3) }},
+	{strength: 2, name: "two pairs", condition: func(cards []Card, i, dis, disC []int) bool { return general.Count(dis, 2) == 2 }},
+	{strength: 1, name: "pair", condition: func(cards []Card, i, dis, disC []int) bool { return slices.Contains(dis, 2) }},
+}
+
 // Checks for combinations in a hand
 func IdentifyCombinations(playerId int, hand []Card) (HandStrength, error) {
 	if len(hand) != 7 {
@@ -39,16 +72,6 @@ func identifyCombinations(playerId int, hand []Card) (HandStrength, error) {
 			}
 			resultValuesDesc := make([]int, 5)
 			resultValues, resultValuesDesc = general.SortDesc(resultValues)
-			//checks for flush and straight flush
-			for _, r := range CombinedSuits {
-				if len(general.Filter(resultHand, func(c Card) bool { return c.suit == r })) == 5 {
-					if resultValuesDesc[0]-resultValuesDesc[4] == 4 {
-						possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 8, CombName: "straight flush", OrderedCardValues: resultValuesDesc})
-					} else {
-						possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 5, CombName: "flush", OrderedCardValues: resultValuesDesc})
-					}
-				}
-			}
 			//makes distribution of values, plus a copy for determining straights with a K-A-2 sequence
 			distribution := make([]int, 13)
 			distributionCopy := make([]int, 17)
@@ -61,20 +84,15 @@ func identifyCombinations(playerId int, hand []Card) (HandStrength, error) {
 			for i := 0; i < 4; i++ {
 				distributionCopy[i+13] = distributionCopy[i]
 			}
-			//checks for all non-flush values. Optimization is welcome
-			if general.ContainsSubslice(distributionCopy, []int{1, 1, 1, 1, 1}) {
-				possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 4, CombName: "straight", OrderedCardValues: resultValuesDesc})
-			} else if slices.Contains(distribution, 4) {
-				possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 7, CombName: "four of a kind", OrderedCardValues: resultValuesDesc})
-			} else if slices.Contains(distribution, 3) && slices.Contains(distribution, 2) {
-				possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 6, CombName: "full house", OrderedCardValues: resultValuesDesc})
-			} else if slices.Contains(distribution, 3) {
-				possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 3, CombName: "three of a kind", OrderedCardValues: resultValuesDesc})
-			} else if general.Count(distribution, 2) == 2 {
-				possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 2, CombName: "two pairs", OrderedCardValues: resultValuesDesc})
-			} else if slices.Contains(distribution, 2) {
-				possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 1, CombName: "pair", OrderedCardValues: resultValuesDesc})
-			} else {
+			flag := false
+			for _, c := range combinations {
+				if c.condition(resultHand, resultValuesDesc, distribution, distributionCopy) {
+					possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: c.strength, CombName: c.name, OrderedCardValues: resultValuesDesc})
+					flag = true
+					break
+				}
+			}
+			if !flag {
 				possibleHands = append(possibleHands, HandStrength{PlayerId: playerId, CombStrength: 0, CombName: "high card", OrderedCardValues: resultValuesDesc})
 			}
 		}
