@@ -2,13 +2,12 @@ package game
 
 import (
 	"chopikashvili/shellpoker/card"
-	"math/rand"
 	"slices"
 )
 
 func simulateGame(robot Player, deck card.Deck, playerNumber int, community []card.Card) (bool, error) {
 	cardsUsed := 0
-	rand.Shuffle(52, func(i, j int) { deck[i], deck[j] = deck[j], deck[i] })
+	deck.Shuffle()
 	simCommunity := slices.Clone(community)
 	for i := len(simCommunity); i < 5; i++ {
 		simCommunity = append(simCommunity, simulateDeal(deck, &cardsUsed, robot.Hand))

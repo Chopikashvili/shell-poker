@@ -3,7 +3,6 @@ package game
 import (
 	"chopikashvili/shellpoker/card"
 	"chopikashvili/shellpoker/general"
-	"math/rand"
 	"slices"
 )
 
@@ -24,7 +23,7 @@ func buildDeal(g GameInstance) (Deal, error) {
 	for i := 0; i < 52; i++ {
 		deal.dealDeck[i] = g.gameDeck[i]
 	}
-	rand.Shuffle(52, func(i, j int) { deal.dealDeck[i], deal.dealDeck[j] = deal.dealDeck[j], deal.dealDeck[i] })
+	deal.dealDeck.Shuffle()
 	deal.community = make([]card.Card, 0)
 	//determines current dealer
 	dealerId := slices.IndexFunc(deal.players, func(p Player) bool { return p.id == g.currentDealer }) - 1
