@@ -14,7 +14,7 @@ func (p *Player) Turn(deal *Deal) error {
 	if p.level == 0 && canBet {
 		action := ""
 		var opt = []string{"call"}
-		if p.Chips < amount {
+		if p.Chips <= amount {
 			opt = append(opt, "fold")
 		} else {
 			opt = append(opt, "raise", "fold")
@@ -27,21 +27,25 @@ func (p *Player) Turn(deal *Deal) error {
 		switch action {
 		case "call":
 			if p.Chips < amount {
-				p.callOrRaise(p.Chips) //Could implement the side pot]
+				p.Bet = p.Chips
+			} else {
+				p.Bet = amount
 			}
-			p.callOrRaise(amount)
+			fmt.Printf("%v chose to call.", p.Name)
 		case "raise":
 			raiseAmount := 0
 			survey.AskOne(&survey.Input{Message: "To how much?"}, &raiseAmount, survey.WithIcons(ux.SurveySettings))
-			canRaise := raiseAmount > p.Bet && raiseAmount <= p.Chips
+			canRaise := raiseAmount > amount && raiseAmount <= p.Chips
 			if canRaise {
-				p.callOrRaise(raiseAmount)
+				p.Bet = raiseAmount
+				fmt.Printf("%v raised to %v.", p.Name, raiseAmount)
 			} else {
 				fmt.Println("Can't raise to that much")
 				p.Turn(deal)
 			}
 		case "fold":
-			p.fold()
+			p.HasFolded = true
+			fmt.Printf("%v folded.", p.Name)
 		}
 	} else if canBet {
 		action, err := RobotTurn(*p, len(deal.players), deal.community)
@@ -51,26 +55,24 @@ func (p *Player) Turn(deal *Deal) error {
 		switch action {
 		case "call":
 			if p.Chips < amount {
-				p.callOrRaise(p.Chips) //Could implement the side pot]
-			}
-			p.callOrRaise(amount)
-		case "raise":
-			raiseAmount := p.Bet + 50
-			canRaise := raiseAmount > p.Bet && raiseAmount <= p.Chips
-			if canRaise {
-				p.callOrRaise(raiseAmount)
+				p.Bet = p.Chips
 			} else {
-				p.callOrRaise(p.Chips)
+				p.Bet = amount
 			}
+			fmt.Printf("%v chose to call.", p.Name)
+		case "raise":
+			raiseAmount := amount + 50
+			if raiseAmount < p.Chips {
+				p.Bet = raiseAmount
+				fmt.Printf("%v raised to %v.", p.Name, raiseAmount)
+			} else {
+				p.Bet = p.Chips
+				fmt.Printf("%v raised to %v.", p.Name, p.Chips)
+			}
+		case "fold":
+			p.HasFolded = true
+			fmt.Printf("%v folded.", p.Name)
 		}
 	}
 	return nil
-}
-
-func (p *Player) callOrRaise(amount int) {
-	p.Bet = amount
-}
-
-func (p *Player) fold() {
-	p.HasFolded = true
 }
