@@ -2,14 +2,19 @@ package game
 
 import (
 	"encoding/json"
+	"errors"
 	"math/rand"
 	"os"
 	"slices"
 )
 
+// Generates robot names. Should only be called from the game package.
 func GenerateName(amount int) ([]string, error) {
+	if amount < 1 || amount > 100 {
+		return []string{}, errors.New("Incorrect name amount")
+	}
 	names := []string{}
-	file, err := os.ReadFile("game/names.json")
+	file, err := os.ReadFile("names.json")
 	if err != nil {
 		return []string{}, err
 	}

@@ -32,7 +32,7 @@ func (c Card) Read() string {
 }
 
 // Shuffles deck.
-func (d Deck) Shuffle() {
+func (d *Deck) Shuffle() {
 	rand.Shuffle(52, func(i, j int) { d[i], d[j] = d[j], d[i] })
 }
 
@@ -40,4 +40,8 @@ func (d Deck) Deal(cardsUsed *int) Card {
 	card := d[*cardsUsed]
 	*cardsUsed++
 	return card
+}
+
+func RandomCard() Card {
+	return Card{value: rand.Intn(13) + 2, suit: Suits[rand.Intn(4)]}
 }
