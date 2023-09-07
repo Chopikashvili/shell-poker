@@ -78,10 +78,16 @@ func RunDeal(deal *Deal) {
 						hand, err := card.IdentifyCombinations(p.GetId(), cardSlice)
 						general.Check(err)
 						hands = append(hands, hand)
+						card1, card2 := ReadHand(p)
+						fmt.Printf("%s's hand: %s %s; %s", p.Name, card1, card2, hand.CombName)
+						fmt.Println(" ")
 					}
 				}
 				winners := DetermineWinners(hands)
 				deal.Winners = general.Filter(deal.players, func(p Player) bool { return slices.Contains(winners, p.id) })
+				for _, p := range deal.Winners {
+					fmt.Printf("%s wins %d chips!", p.Name, deal.pot/len(deal.Winners))
+				}
 			}
 		}
 	}
