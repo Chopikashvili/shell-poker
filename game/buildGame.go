@@ -32,9 +32,9 @@ func buildGame(set ux.Settings) (GameInstance, error) {
 	}
 	for i := 0; i < set.PlayerNumber; i++ {
 		if i == game.humanPlayerId {
-			game.players = append(game.players, Player{Name: "You", Chips: 1000, level: 0}) //initializes a human player object. The hand will be dealt later
+			game.players = append(game.players, Player{Name: "You", Chips: 1000, level: 0, id: i}) //initializes a human player object. The hand will be dealt later
 		} else {
-			game.players = append(game.players, Player{Name: names[i], Chips: 1000, level: set.PlayerNumber}) //initializes a robot player object with the given level. The hand will be dealt later
+			game.players = append(game.players, Player{Name: names[i], Chips: 1000, level: set.PlayerNumber, id: i}) //initializes a robot player object with the given level. The hand will be dealt later
 		}
 	}
 	game.currentDeal = 0

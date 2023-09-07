@@ -59,6 +59,7 @@ func RunDeal(deal *Deal) {
 		if deal.Winners[0].Name != "" {
 			break
 		} else {
+			PrintState(*deal)
 			switch i {
 			case 0:
 				for j := 0; j < 3; j++ {
