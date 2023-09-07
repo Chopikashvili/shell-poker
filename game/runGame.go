@@ -41,13 +41,19 @@ func (d Deal) CheckWinner() []Player {
 
 func RunDeal(deal *Deal) {
 	for i := 0; i < 4; i++ {
-		for _, p := range deal.players {
+		i := 0
+		for true {
+			p := deal.players[i]
 			p.Turn(deal)
 			deal.pot = general.Sum(deal.bets)
 			deal.Winners = deal.CheckWinner()
 			if deal.Winners[0].Name != "" {
 				fmt.Printf("%v is the last player standing and wins %v chips", deal.Winners[0].Name, deal.pot)
 				break
+			}
+			i++
+			if i == len(deal.players) {
+				i = 0
 			}
 		}
 		if deal.Winners[0].Name != "" {
