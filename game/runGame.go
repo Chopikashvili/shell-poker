@@ -16,7 +16,7 @@ func RunGame(set ux.Settings) {
 		general.Check(err)
 		if len(deal.players) <= 1 {
 			winner := deal.players[0]
-			fmt.Printf("The game is over. %v won.", winner.Name)
+			fmt.Printf("The game is over. %s won.", winner.Name)
 			break
 		} else {
 			RunDeal(&deal)
@@ -48,7 +48,7 @@ func RunDeal(deal *Deal) {
 			deal.pot = general.Sum(deal.bets)
 			deal.Winners = deal.CheckWinner()
 			if deal.Winners[0].Name != "" {
-				fmt.Printf("%v is the last player standing and wins %v chips", deal.Winners[0].Name, deal.pot)
+				fmt.Printf("%s is the last player standing and wins %d chips", deal.Winners[0].Name, deal.pot)
 				break
 			}
 			i++
