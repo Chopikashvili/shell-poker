@@ -40,10 +40,7 @@ type Player struct {
 }
 
 func ReadHand(pl Player) (string, string) {
-	if pl.level == 0 {
-		return pl.Hand[0].Read(), pl.Hand[1].Read()
-	}
-	return "??", "??"
+	return pl.Hand[0].Read(), pl.Hand[1].Read()
 }
 
 func (p Player) GetId() int {

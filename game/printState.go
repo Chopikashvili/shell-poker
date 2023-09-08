@@ -23,4 +23,5 @@ func PrintState(deal Deal) {
 	human := deal.players[slices.IndexFunc(deal.players, func(p Player) bool { return p.id == deal.humanPlayerId })]
 	humanHand1, humanHand2 := ReadHand(human)
 	fmt.Printf("Your hand: %s %s", humanHand1, humanHand2)
+	fmt.Println(" ")
 }

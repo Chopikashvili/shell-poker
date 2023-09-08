@@ -6,6 +6,7 @@ import (
 	"chopikashvili/shellpoker/ux"
 	"fmt"
 	"slices"
+	"time"
 )
 
 func RunGame(set ux.Settings) {
@@ -26,11 +27,12 @@ func RunGame(set ux.Settings) {
 		} else {
 			RunDeal(&deal)
 		}
-		for _, p := range inst.players {
+		for i, p := range inst.players {
+			inst.players[i] = deal.players[i]
 			if slices.ContainsFunc(deal.Winners, func(w Player) bool { return w.Name == p.Name }) {
-				p.Chips += deal.pot / len(deal.Winners)
+				inst.players[i].Chips += deal.pot/len(deal.Winners) - inst.players[i].Bet
 			} else if p.Chips != 0 {
-				p.Chips -= p.Bet
+				inst.players[i].Chips = inst.players[i].Chips - inst.players[i].Bet
 			}
 		}
 	}
@@ -49,11 +51,16 @@ func RunDeal(deal *Deal) {
 	for i := 0; i < 4; i++ {
 		counter := deal.dealerId + 3
 		if counter >= len(deal.players) {
-			counter -= len(deal.players)
+			counter = counter - len(deal.players)
 		}
-		for true {
-			p := deal.players[counter]
-			p.Turn(deal)
+		underTheGun := counter
+		turns := 0
+		for !CheckEndOfTurn(deal.players, underTheGun, &turns) {
+			deal.players[counter].Turn(deal)
+			time.Sleep(10 ^ 9)
+			for j, p := range deal.players {
+				deal.bets[j] = p.Bet
+			}
 			deal.pot = general.Sum(deal.bets)
 			deal.Winners = deal.CheckWinner()
 			if len(deal.Winners) != 0 {
@@ -66,18 +73,21 @@ func RunDeal(deal *Deal) {
 				counter = 0
 			}
 		}
-		if deal.Winners[0].Name != "" {
+		if len(deal.Winners) != 0 {
 			break
 		} else {
-			PrintState(*deal)
 			switch i {
 			case 0:
 				for j := 0; j < 3; j++ {
 					deal.community = append(deal.community, deal.dealDeck.Deal(&deal.cardsUsed))
 				}
+				PrintState(*deal)
 			case 1:
+				deal.community = append(deal.community, deal.dealDeck.Deal(&deal.cardsUsed))
+				PrintState(*deal)
 			case 2:
 				deal.community = append(deal.community, deal.dealDeck.Deal(&deal.cardsUsed))
+				PrintState(*deal)
 			case 3:
 				hands := []card.HandStrength{}
 				for _, p := range deal.players {
@@ -101,4 +111,32 @@ func RunDeal(deal *Deal) {
 			}
 		}
 	}
+}
+
+func CheckEndOfTurn(players []Player, underTheGun int, turns *int) bool {
+	max := 0
+	flag := true
+	i, j := underTheGun, underTheGun-1
+	for true {
+		if i == j {
+			break
+		}
+		p := players[i]
+		if !p.HasFolded && p.Bet < max {
+			flag = false
+			break
+		} else if !p.HasFolded && p.Bet > max {
+			max = p.Bet
+		}
+		i++
+		if i == len(players) {
+			i = 0
+		}
+	}
+	//this is here so at the start of the deal the check does not immediately fire
+	*turns++
+	if *turns < len(players) {
+		return false
+	}
+	return flag
 }

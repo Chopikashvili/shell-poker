@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"log"
 	"slices"
-	"time"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/AlecAivazis/survey/v2/terminal"
@@ -41,11 +40,11 @@ func (p *Player) Turn(deal *Deal) error {
 		case "fold":
 			p.HasFolded = true
 			fmt.Printf("%s folded.", p.Name)
+			fmt.Println(" ")
 		}
 	} else if canBet {
 		fmt.Printf("%s is deciding...", p.Name)
 		fmt.Println(" ")
-		time.Sleep(10 ^ 9)
 		action, err := RobotTurn(*p, len(deal.players), deal.community)
 		if err != nil {
 			return err
@@ -53,7 +52,6 @@ func (p *Player) Turn(deal *Deal) error {
 		switch action {
 		case "call":
 			p.call(amount)
-			fmt.Printf("%s chose to call.", p.Name)
 		case "raise":
 			raiseAmount := amount + 50
 			p.robotRaise(raiseAmount)
@@ -72,6 +70,7 @@ func (p *Player) call(amount int) {
 		p.Bet = amount
 	}
 	fmt.Printf("%s chose to call.", p.Name)
+	fmt.Println(" ")
 }
 
 func (p *Player) humanRaise(amount, raiseAmount int, deal *Deal) {
@@ -79,6 +78,7 @@ func (p *Player) humanRaise(amount, raiseAmount int, deal *Deal) {
 	if canRaise {
 		p.Bet = raiseAmount
 		fmt.Printf("%s raised to %d.", p.Name, raiseAmount)
+		fmt.Println(" ")
 	} else {
 		fmt.Println("Can't raise to that much")
 		p.Turn(deal)
@@ -89,8 +89,10 @@ func (p *Player) robotRaise(raiseAmount int) {
 	if raiseAmount < p.Chips {
 		p.Bet = raiseAmount
 		fmt.Printf("%s raised to %d.", p.Name, raiseAmount)
+		fmt.Println(" ")
 	} else {
 		p.Bet = p.Chips
 		fmt.Printf("%s raised to %d.", p.Name, p.Chips)
+		fmt.Println(" ")
 	}
 }

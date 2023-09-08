@@ -45,18 +45,18 @@ func (d *Deal) setBets() {
 		if i == d.dealerId+1 || i == d.dealerId+1-len(d.players) {
 			if p.Chips < 25 {
 				d.bets = append(d.bets, p.Chips)
-				p.Bet = p.Chips
+				d.players[i].Bet = p.Chips
 			} else {
 				d.bets = append(d.bets, 25)
-				p.Bet = 25
+				d.players[i].Bet = 25
 			}
 		} else if i == d.dealerId+2 || i == d.dealerId+2-len(d.players) {
 			if p.Chips < 50 {
 				d.bets = append(d.bets, p.Chips)
-				p.Bet = p.Chips
+				d.players[i].Bet = p.Chips
 			} else {
 				d.bets = append(d.bets, 50)
-				p.Bet = 50
+				d.players[i].Bet = 50
 			}
 		} else {
 			d.bets = append(d.bets, 0)
