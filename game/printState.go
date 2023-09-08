@@ -20,7 +20,7 @@ func PrintState(deal Deal) {
 		fmt.Printf("%d chips, %d bet", p.Chips, p.Bet)
 		fmt.Println(" ")
 	}
-	human := deal.players[slices.IndexFunc(deal.players, func(p Player) bool { return p.id == deal.game.humanPlayerId })]
+	human := deal.players[slices.IndexFunc(deal.players, func(p Player) bool { return p.id == deal.humanPlayerId })]
 	humanHand1, humanHand2 := ReadHand(human)
 	fmt.Printf("Your hand: %s %s", humanHand1, humanHand2)
 }

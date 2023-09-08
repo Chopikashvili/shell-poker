@@ -14,7 +14,7 @@ func GenerateName(amount int) ([]string, error) {
 		return []string{}, errors.New("Incorrect name amount")
 	}
 	names := []string{}
-	file, err := os.ReadFile("names.json")
+	file, err := os.ReadFile("game/names.json")
 	if err != nil {
 		return []string{}, err
 	}

@@ -13,7 +13,6 @@ func BuildDeal(g GameInstance) (Deal, error) {
 
 func buildDeal(g GameInstance) (Deal, error) {
 	deal := Deal{}
-	deal.game = g
 	deal.dealDeck = card.Deck{}
 	for i := 0; i < 52; i++ {
 		deal.dealDeck[i] = g.gameDeck[i]
@@ -37,6 +36,7 @@ func buildDeal(g GameInstance) (Deal, error) {
 	deal.setBets()
 	deal.state = "before betting"
 	deal.pot = 75
+	deal.humanPlayerId = g.humanPlayerId
 	return deal, nil
 }
 

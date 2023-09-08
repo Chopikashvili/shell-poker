@@ -3,9 +3,12 @@ package game
 import (
 	"chopikashvili/shellpoker/ux"
 	"fmt"
+	"log"
 	"slices"
+	"time"
 
 	"github.com/AlecAivazis/survey/v2"
+	"github.com/AlecAivazis/survey/v2/terminal"
 )
 
 func (p *Player) Turn(deal *Deal) error {
@@ -22,6 +25,9 @@ func (p *Player) Turn(deal *Deal) error {
 		var sel = &survey.Select{Message: "What do you do?", Options: opt}
 		err := survey.AskOne(sel, &action, survey.WithIcons(ux.SurveySettings))
 		if err != nil {
+			if err == terminal.InterruptErr {
+				log.Fatal("You interrupted the process.")
+			}
 			return err
 		}
 		switch action {
@@ -37,6 +43,9 @@ func (p *Player) Turn(deal *Deal) error {
 			fmt.Printf("%s folded.", p.Name)
 		}
 	} else if canBet {
+		fmt.Printf("%s is deciding...", p.Name)
+		fmt.Println(" ")
+		time.Sleep(10 ^ 9)
 		action, err := RobotTurn(*p, len(deal.players), deal.community)
 		if err != nil {
 			return err

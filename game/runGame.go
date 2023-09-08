@@ -9,10 +9,15 @@ import (
 )
 
 func RunGame(set ux.Settings) {
-	game, err := BuildGame(set)
+	inst, err := BuildGame(set)
 	general.Check(err)
+	fmt.Print("Players: ")
+	for _, p := range inst.players {
+		fmt.Printf("%s ", p.Name)
+	}
+	fmt.Println(" ")
 	for true {
-		deal, err := BuildDeal(game)
+		deal, err := BuildDeal(inst)
 		general.Check(err)
 		if len(deal.players) <= 1 {
 			winner := deal.players[0]
@@ -21,7 +26,7 @@ func RunGame(set ux.Settings) {
 		} else {
 			RunDeal(&deal)
 		}
-		for _, p := range game.players {
+		for _, p := range inst.players {
 			if slices.ContainsFunc(deal.Winners, func(w Player) bool { return w.Name == p.Name }) {
 				p.Chips += deal.pot / len(deal.Winners)
 			} else if p.Chips != 0 {
@@ -40,20 +45,25 @@ func (d Deal) CheckWinner() []Player {
 }
 
 func RunDeal(deal *Deal) {
+	PrintState(*deal)
 	for i := 0; i < 4; i++ {
-		i := 0
+		counter := deal.dealerId + 3
+		if counter >= len(deal.players) {
+			counter -= len(deal.players)
+		}
 		for true {
-			p := deal.players[i]
+			p := deal.players[counter]
 			p.Turn(deal)
 			deal.pot = general.Sum(deal.bets)
 			deal.Winners = deal.CheckWinner()
-			if deal.Winners[0].Name != "" {
+			if len(deal.Winners) != 0 {
 				fmt.Printf("%s is the last player standing and wins %d chips", deal.Winners[0].Name, deal.pot)
+				fmt.Println(" ")
 				break
 			}
-			i++
-			if i == len(deal.players) {
-				i = 0
+			counter++
+			if counter == len(deal.players) {
+				counter = 0
 			}
 		}
 		if deal.Winners[0].Name != "" {
