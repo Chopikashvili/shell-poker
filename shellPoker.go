@@ -1,13 +1,7 @@
 package main
 
-import (
-	"chopikashvili/shellpoker/game"
-	"chopikashvili/shellpoker/general"
-	"chopikashvili/shellpoker/ux"
-)
+import "chopikashvili/shellpoker/game"
 
 func main() {
-	set, err := ux.ConfigureSettings()
-	general.Check(err)
-	game.RunGame(set)
+	game.PrepareRunningGame()
 }
