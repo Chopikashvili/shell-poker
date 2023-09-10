@@ -60,6 +60,7 @@ func (d *Deal) setBets() {
 			}
 		} else {
 			d.bets = append(d.bets, 0)
+			d.players[i].Bet = 0
 		}
 	}
 }

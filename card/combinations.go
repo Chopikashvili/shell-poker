@@ -76,10 +76,8 @@ func identifyCombinations(playerId int, hand []Card) (HandStrength, error) {
 			distribution := make([]int, 13)
 			distributionCopy := make([]int, 17)
 			for i := 0; i < 13; i++ {
-				if slices.Contains(resultValues, i+2) {
-					distribution[i]++
-					distributionCopy[i]++
-				}
+				distribution[i] += general.Count(resultValues, i+2)
+				distributionCopy[i] += general.Count(resultValues, i+2)
 			}
 			for i := 0; i < 4; i++ {
 				distributionCopy[i+13] = distributionCopy[i]
