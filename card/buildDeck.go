@@ -25,7 +25,12 @@ func buildDeck(d Deck, letters bool) (Deck, error) {
 		}
 	}
 	//checks if deck was constructed correctly
-	c := Card{suit: '♦', value: 14}
+	c := Card{}
+	if letters {
+		c = Card{suit: 'D', value: 14}
+	} else {
+		c = Card{suit: '♦', value: 14}
+	}
 	if d[51] != c {
 		return d, errors.New("Could not build deck")
 	}
