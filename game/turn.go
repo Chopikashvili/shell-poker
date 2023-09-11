@@ -45,7 +45,7 @@ func (p *Player) Turn(deal *Deal) error {
 	} else if canBet {
 		fmt.Printf("%s is deciding...", p.Name)
 		fmt.Println(" ")
-		action, err := RobotTurn(*p, len(deal.players), deal.community)
+		action, err := RobotTurn(*p, len(deal.players), deal.community, amount)
 		if err != nil {
 			return err
 		}

@@ -36,6 +36,7 @@ type Player struct {
 	Chips     int          //How many chips the player has.
 	Bet       int          //The player's bet
 	HasFolded bool         //Whether the player has folded in a particular deal.
+	HasRaised bool         //Whether the player has raised in a particular deal.
 	level     int          //For robots, the level they play on. For the human player, 0.
 }
 

@@ -33,6 +33,7 @@ func RunGame(set ux.Settings) {
 			if p.Chips != 0 {
 				inst.players[i] = deal.players[slices.IndexFunc(deal.players, func(p Player) bool { return p.id == i })]
 				inst.players[i].HasFolded = false
+				inst.players[i].HasRaised = false
 				if slices.ContainsFunc(deal.Winners, func(w Player) bool { return w.Name == p.Name }) {
 					inst.players[i].Chips += deal.pot/len(deal.Winners) - inst.players[i].Bet
 				} else if p.Chips != 0 {

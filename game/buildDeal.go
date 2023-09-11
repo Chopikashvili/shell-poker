@@ -21,6 +21,7 @@ func buildDeal(g GameInstance) (Deal, error) {
 	deal.players = general.Filter(g.players, func(p Player) bool { return p.Chips != 0 })
 	for i, p := range deal.players {
 		p.HasFolded = false
+		p.HasRaised = false
 		p.order = i
 	}
 	deal.DealHands()

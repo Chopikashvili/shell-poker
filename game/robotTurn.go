@@ -6,7 +6,7 @@ import (
 	"math/rand"
 )
 
-func RobotTurn(robot Player, playerNumber int, community []card.Card) (string, error) {
+func RobotTurn(robot Player, playerNumber int, community []card.Card, amount int) (string, error) {
 	deck, err := card.BuildDeck(false)
 	if err != nil {
 		return "", err
@@ -32,7 +32,7 @@ func RobotTurn(robot Player, playerNumber int, community []card.Card) (string, e
 		}
 	} else {
 		winPct := float64(winCount) / float64(robot.GetLevel())
-		if winPct < (2.0/3.0)/float64(playerNumber) {
+		if winPct < (2.0/3.0)/float64(playerNumber) && amount > robot.Bet && !robot.HasRaised {
 			return "fold", nil
 		} else if winPct < (4.0/3.0)/float64(playerNumber) {
 			return "call", nil
