@@ -27,7 +27,7 @@ func buildDeck(d Deck, letters bool) (Deck, error) {
 	//checks if deck was constructed correctly
 	c := Card{}
 	if letters {
-		c = Card{suit: 'D', value: 14}
+		c = Card{suit: 'd', value: 14}
 	} else {
 		c = Card{suit: '♦', value: 14}
 	}
