@@ -33,7 +33,6 @@ func buildDeal(g GameInstance) (Deal, error) {
 	} else {
 		deal.setBets()
 	}
-	deal.state = "before betting"
 	deal.pot = 75
 	deal.humanPlayerId = g.humanPlayerId
 	return deal, nil

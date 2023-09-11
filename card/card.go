@@ -41,7 +41,3 @@ func (d Deck) Deal(cardsUsed *int) Card {
 	*cardsUsed++
 	return card
 }
-
-func RandomCard() Card {
-	return Card{value: rand.Intn(13) + 2, suit: Suits[rand.Intn(4)]}
-}

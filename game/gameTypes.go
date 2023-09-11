@@ -23,7 +23,6 @@ type Deal struct {
 	bets          []int       //Tracks bets.
 	pot           int         //The money in the pot.
 	dealerId      int         //Counted clockwise among players still in.
-	state         string      //State of the game. May be unnecessary.
 	isWon         bool        //Whether the deal has ended.
 	Winners       []Player    //Who won the deal
 }

@@ -27,9 +27,9 @@ func RunDeal(deal *Deal) {
 			deal.Winners = deal.CheckWinner()
 			if len(deal.Winners) != 0 {
 				if deal.Winners[0].Name == "You" {
-					fmt.Printf("You were the last player standing and won %d chips.", deal.pot)
+					fmt.Printf("You were the last player standing and won %d chips.", deal.pot-deal.Winners[0].Bet)
 				} else {
-					fmt.Printf("%s was the last player standing and won %d chips.", deal.Winners[0].Name, deal.pot)
+					fmt.Printf("%s was the last player standing and won %d chips.", deal.Winners[0].Name, deal.pot-deal.Winners[0].Bet)
 				}
 				fmt.Println(" ")
 				break
@@ -75,7 +75,7 @@ func RunDeal(deal *Deal) {
 				winners := DetermineWinners(hands)
 				deal.Winners = general.Filter(deal.players, func(p Player) bool { return slices.Contains(winners, p.id) })
 				for _, p := range deal.Winners {
-					fmt.Printf("%s won %d chips!", p.Name, deal.pot/len(deal.Winners))
+					fmt.Printf("%s won %d chips!", p.Name, (deal.pot/len(deal.Winners))-p.Bet)
 					fmt.Println(" ")
 				}
 			}
