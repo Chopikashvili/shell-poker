@@ -7,6 +7,7 @@ import (
 )
 
 func RobotTurn(robot Player, playerNumber int, community []card.Card, amount int) (string, error) {
+	result := ""
 	deck, err := card.BuildDeck(false)
 	if err != nil {
 		return "", err
@@ -23,21 +24,39 @@ func RobotTurn(robot Player, playerNumber int, community []card.Card, amount int
 	if robot.GetLevel() == 1 {
 		if winCount == 1 {
 			if rand.Intn(1) == 0 {
-				return "call", nil
+				result = "call"
 			} else {
-				return "raise", nil
+				result = "raise"
 			}
 		} else {
-			return "fold", nil
+			result = "fold"
 		}
 	} else {
 		winPct := float64(winCount) / float64(robot.GetLevel())
 		if winPct < (2.0/3.0)/float64(playerNumber) && amount > robot.Bet && !robot.HasRaised {
-			return "fold", nil
+			result = "fold"
 		} else if winPct < (4.0/3.0)/float64(playerNumber) {
-			return "call", nil
+			result = "call"
 		} else {
-			return "raise", nil
+			result = "raise"
 		}
 	}
+	return BluffCheck(result), nil
+}
+
+func BluffCheck(input string) string {
+	bluff := rand.Intn(5)
+	if bluff == 0 {
+		switch input {
+		case "fold":
+			return "call"
+		case "call":
+			return "raise"
+		case "raise":
+			return "call"
+		}
+	} else {
+		return input
+	}
+	return ""
 }
