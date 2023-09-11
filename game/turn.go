@@ -58,6 +58,7 @@ func (p *Player) Turn(deal *Deal) error {
 		case "fold":
 			p.HasFolded = true
 			fmt.Printf("%s folded.", p.Name)
+			fmt.Println(" ")
 		}
 	}
 	return nil
