@@ -19,7 +19,7 @@ func RunDeal(deal *Deal) {
 		turns := 0
 		for true {
 			deal.players[counter].Turn(deal)
-			time.Sleep(10 ^ 9)
+			time.Sleep(time.Second)
 			for j, p := range deal.players {
 				deal.bets[j] = p.Bet
 			}

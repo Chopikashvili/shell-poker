@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"slices"
+	"time"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/AlecAivazis/survey/v2/terminal"
@@ -49,6 +50,7 @@ func (p *Player) Turn(deal *Deal) error {
 		if err != nil {
 			return err
 		}
+		time.Sleep(time.Second)
 		switch action {
 		case "call":
 			p.call(amount)

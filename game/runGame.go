@@ -23,7 +23,7 @@ func RunGame(set ux.Settings) {
 			fmt.Printf("The game is over. %s won.", winner.Name)
 			break
 		} else if slices.IndexFunc(deal.players, func(p Player) bool { return p.id == deal.humanPlayerId }) == -1 {
-			fmt.Println("You lost all your money.")
+			fmt.Println("You lost all your chips.")
 			fmt.Println("Run the command to play again.")
 			break
 		} else {
@@ -41,9 +41,9 @@ func RunGame(set ux.Settings) {
 				}
 			}
 		}
-		inst.currentDealer--
-		if inst.currentDealer == -1 {
-			inst.currentDealer = len(inst.players) - 1
+		inst.currentDealer++
+		if inst.currentDealer == inst.playerNumber {
+			inst.currentDealer = 0
 		}
 	}
 }

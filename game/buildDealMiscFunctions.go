@@ -50,20 +50,26 @@ func (d *Deal) setBetsTwoPlayers() {
 }
 
 func getDealerId(deal Deal, g GameInstance) int {
-	dealerId := slices.IndexFunc(deal.players, func(p Player) bool { return p.id == g.currentDealer }) - 1
-	if dealerId == -1 {
-		return len(deal.players) - 1
-	} else if dealerId == -2 {
+	dealerId := slices.IndexFunc(deal.players, func(p Player) bool { return p.id == g.currentDealer }) + 1
+	if dealerId >= len(deal.players) {
+		return 0
+	} else if dealerId == 0 {
 		//this section is for if the previous dealer went bankrupt
-		for i := g.currentDealer; i >= 0; i-- {
-			dealerId := slices.IndexFunc(deal.players, func(p Player) bool { return p.id == i }) - 1
-			if dealerId != -2 {
+		for i := g.currentDealer; i < g.playerNumber; i++ {
+			dealerId := slices.IndexFunc(deal.players, func(p Player) bool { return p.id == i }) + 1
+			if dealerId != 0 {
+				if dealerId == len(deal.players) {
+					return dealerId - len(deal.players)
+				}
 				return dealerId
 			}
 		}
-		for i := g.playerNumber; i > g.currentDealer; i-- {
-			dealerId := slices.IndexFunc(deal.players, func(p Player) bool { return p.id == i }) - 1
-			if dealerId != -2 {
+		for i := 0; i < g.currentDealer; i++ {
+			dealerId := slices.IndexFunc(deal.players, func(p Player) bool { return p.id == i }) + 1
+			if dealerId != 0 {
+				if dealerId == len(deal.players) {
+					return dealerId - len(deal.players)
+				}
 				return dealerId
 			}
 		}
