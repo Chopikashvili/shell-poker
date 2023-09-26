@@ -9,9 +9,13 @@ You can learn to play hold' em [here](https://www.techopedia.com/gambling-guides
 ## How do I install and run it?
 
 1. If you haven't already, install The Go programming language here [here](https://go.dev/doc/install).
-2. Download the code [here](link pending).
-3. Run ```go run [file/path]/shellPoker.``` in your preferred shell, where ```[file/path]``` is the path to the folder you downloaded the code into. If you're using Git Bash, add ```winpty``` before the command or the game won't start.
+2. Open your shell as administrator and run ```go install github.com/Chopikashvili/shell-poker@latest```
+3. Unless you tinkered with the GOPATH, you need to run  ```C:/"Program Files"/Go/bin/shell-poker```. If you changed the GOPATH value, run ```[new/path]/bin/shell-poker``` in your preferred shell, where ```[new/path]``` is the GOPATH. If you're using Git Bash, add ```winpty``` before the command or the game won't start. If you're using a Windows shell, replace forward slashes with back slashes and add ```.exe``` to the end of the path.
 
 ## How do I quit?
 
 Press Ctrl+C to quit the game.
+
+## What is the purpose of this?
+
+It is my introductory project in Go!
