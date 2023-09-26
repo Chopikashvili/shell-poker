@@ -1,0 +1,21 @@
+package game
+
+var GameNames = []string{"Mamadou", "Abdoulaye", "Aminata", "Oumou",
+	"Lethabo", "Siphosethu", "Melokuhle", "Amadou",
+	"Mateo", "Noah", "Emma", "Catalina",
+	"José", "Miguel", "Maria", "Helena",
+	"Santiago", "Emiliano", "Sofía", "Camila",
+	"Liam", "Oliver", "Eli", "Henry", "Ben", "James", "Robert", "Bill", "Richard", "Joe", "Olivia", "Charlotte", "Sophia", "Ava", "Evelyn", "Mary", "Linda", "Elizabeth", "Susan", "Margaret",
+	"Mohamed", "Ali", "Omar", "Khaled", "Maryam", "Hur", "Malak", "Farah",
+	"Mùchén", "Yǔzé", "Ruòxī", "Yǐmò",
+	"Shivansh", "Kabir", "Kiaan", "Viraj", "Aditi", "Kiara", "Vamika", "Mehav",
+	"David", "Eitan", "Avigail", "Maya",
+	"Aoi", "Haruto", "Himari", "Anzu",
+	"Jacob", "Angelo", "Althea", "Nathalie",
+	"Seo-jun", "Ju-won", "Ji-an", "Ha-rin",
+	"Noel", "Mateo", "Amelie", "Ambra",
+	"Luka", "Petar", "Lucija", "Marta",
+	"Gabriel", "Maël", "Jade", "Lina",
+	"Elias", "Theo", "Mia", "Ella",
+	"Leonardo", "Mattia", "Aurora", "Alice",
+	"Jack", "Hudson", "Isla", "Matilda"}
