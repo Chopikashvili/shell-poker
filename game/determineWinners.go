@@ -1,8 +1,9 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/card"
 	"slices"
+
+	"github.com/Chopikashvili/shell-poker/card"
 )
 
 // Compares every player's best hand and determines the winner(s).

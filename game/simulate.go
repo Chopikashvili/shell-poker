@@ -1,8 +1,9 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/card"
 	"slices"
+
+	"github.com/Chopikashvili/shell-poker/card"
 )
 
 func simulateGame(robot Player, deck card.Deck, playerNumber int, community []card.Card) (bool, error) {

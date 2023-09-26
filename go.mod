@@ -1,4 +1,4 @@
-module chopikashvili/shellpoker
+module github.com/Chopikashvili/shell-poker
 
 go 1.21.0
 

@@ -1,11 +1,12 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/card"
-	"chopikashvili/shellpoker/general"
 	"fmt"
 	"slices"
 	"time"
+
+	"github.com/Chopikashvili/shell-poker/card"
+	"github.com/Chopikashvili/shell-poker/general"
 )
 
 func RunDeal(deal *Deal) {

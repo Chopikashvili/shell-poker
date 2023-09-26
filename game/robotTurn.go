@@ -1,9 +1,10 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/card"
-	"chopikashvili/shellpoker/general"
 	"math/rand"
+
+	"github.com/Chopikashvili/shell-poker/card"
+	"github.com/Chopikashvili/shell-poker/general"
 )
 
 func RobotTurn(robot Player, playerNumber int, community []card.Card, amount int) (string, error) {

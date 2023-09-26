@@ -1,10 +1,11 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/general"
-	"chopikashvili/shellpoker/ux"
 	"fmt"
 	"slices"
+
+	"github.com/Chopikashvili/shell-poker/general"
+	"github.com/Chopikashvili/shell-poker/ux"
 )
 
 func RunGame(set ux.Settings) {

@@ -1,7 +1,7 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/card"
+	"github.com/Chopikashvili/shell-poker/card"
 )
 
 type GameInstance struct {

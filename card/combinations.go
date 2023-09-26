@@ -1,9 +1,10 @@
 package card
 
 import (
-	"chopikashvili/shellpoker/general"
 	"errors"
 	"slices"
+
+	"github.com/Chopikashvili/shell-poker/general"
 )
 
 type HandStrength struct {

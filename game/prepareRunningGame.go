@@ -1,8 +1,8 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/general"
-	"chopikashvili/shellpoker/ux"
+	"github.com/Chopikashvili/shell-poker/general"
+	"github.com/Chopikashvili/shell-poker/ux"
 )
 
 func PrepareRunningGame() {

@@ -1,11 +1,12 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/ux"
 	"fmt"
 	"log"
 	"slices"
 	"time"
+
+	"github.com/Chopikashvili/shell-poker/ux"
 
 	"github.com/AlecAivazis/survey/v2"
 	"github.com/AlecAivazis/survey/v2/terminal"

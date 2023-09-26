@@ -1,9 +1,10 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/card"
-	"chopikashvili/shellpoker/ux"
 	"math/rand"
+
+	"github.com/Chopikashvili/shell-poker/card"
+	"github.com/Chopikashvili/shell-poker/ux"
 )
 
 // Initializes game object with number of players "pnum" and level of bots "level".

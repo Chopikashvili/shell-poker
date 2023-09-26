@@ -1,8 +1,8 @@
 package game
 
 import (
-	"chopikashvili/shellpoker/card"
-	"chopikashvili/shellpoker/general"
+	"github.com/Chopikashvili/shell-poker/card"
+	"github.com/Chopikashvili/shell-poker/general"
 )
 
 // Initializes deal object
