@@ -5,6 +5,7 @@ import (
 	"errors"
 	"math/rand"
 	"os"
+	"path/filepath"
 	"slices"
 )
 
@@ -14,7 +15,11 @@ func GenerateName(amount int) ([]string, error) {
 		return []string{}, errors.New("Incorrect name amount")
 	}
 	names := []string{}
-	file, err := os.ReadFile("game/names.json")
+	filepath, err := filepath.Abs("../names.json")
+	if err != nil {
+		return []string{}, err
+	}
+	file, err := os.ReadFile(filepath)
 	if err != nil {
 		return []string{}, err
 	}
