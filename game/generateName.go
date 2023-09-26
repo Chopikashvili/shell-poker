@@ -15,7 +15,7 @@ func GenerateName(amount int) ([]string, error) {
 		return []string{}, errors.New("Incorrect name amount")
 	}
 	names := []string{}
-	filepath, err := filepath.Abs("../names.json")
+	filepath, err := filepath.Abs("game/names.json")
 	if err != nil {
 		return []string{}, err
 	}
