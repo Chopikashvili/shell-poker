@@ -11,7 +11,16 @@ import (
 func RunDeal(deal *Deal) {
 	PrintState(*deal)
 	for i := 0; i < 4; i++ {
-		counter := deal.dealerId + 3
+		counter := 0
+		if i == 0 {
+			if len(deal.players) == 2 {
+				counter = deal.dealerId
+			} else {
+				counter = deal.dealerId + 3
+			}
+		} else {
+			counter = deal.dealerId + 1
+		}
 		for counter >= len(deal.players) {
 			counter = counter - len(deal.players)
 		}
