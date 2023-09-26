@@ -25,6 +25,7 @@ func buildGame(set ux.Settings) (GameInstance, error) {
 		return GameInstance{}, e
 	}
 	game.gameDeck = d
+	game.playerNumber = set.PlayerNumber
 	game.humanPlayerId = rand.Intn(set.PlayerNumber)
 	names, e := GenerateName(set.PlayerNumber)
 	if e != nil {

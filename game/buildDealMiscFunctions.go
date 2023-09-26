@@ -59,7 +59,7 @@ func getDealerId(deal Deal, g GameInstance) int {
 			dealerId := slices.IndexFunc(deal.players, func(p Player) bool { return p.id == i }) + 1
 			if dealerId != 0 {
 				if dealerId == len(deal.players) {
-					return dealerId - len(deal.players)
+					return 0
 				}
 				return dealerId
 			}
